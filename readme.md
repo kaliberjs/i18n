@@ -19,7 +19,7 @@ yarn add @kaliber/i18n
 [Skip to reference](#reference)
 
 ```jsx
-import { I18nContextProvider, useI18n, useI18nLanguage } from '@kaliber/i18n'
+import { I18nContextProvider, I18nSection, useI18n, useI18nLanguage } from '@kaliber/i18n'
 import { i18n } from './config/i18n.js'
 
 function App() {
@@ -42,9 +42,9 @@ function Page() {
         ))}
       </header>
       <main>
-        <I18nContextProvider value={i18n.home}>
+        <I18nSection section='home'>
           <Home />
-        </I18nContextProvider>
+        </I18nSection>
       </main>
       <footer>
         {i18n.footer.copyright(2020)} - {language.toUpperCase()}
@@ -119,10 +119,10 @@ const i18n = {
 
 ## Reference
 
-### `Provider`
+### `I18nContextProvider`
 
 ```jsx
-<Provider value={i18n} language='en' section='home'>
+<Provider value={i18n} language='en'>
   {children}
 </Provider>
 ```
@@ -134,6 +134,18 @@ const i18n = {
 
 The provided i18n object may be a deeply nested object, optionally containing arrays. Values don't have to be strings, you can also provide numbers, functions or React elements (see the example i18n object under [usage](#usage))
 
+### `I18nSection`
+
+```jsx
+<I18nSection section='home'>
+  {children}
+</I18nSection>
+```
+
+| Props          |                                                                               |
+|----------------|-------------------------------------------------------------------------------|
+| `section`      | Re-provides a subsection of the i18n object indicated by `section`. `section` should be a string corresponding to a property in the current i18n value. Dots may be used: `'home.introduction'` is a valid value. |
+
 ### `useI18n`
 
 Returns (a subsection of) the i18n object from the nearest provider.
@@ -144,7 +156,7 @@ const i18n = useI18n(section)
 
 | Input          |                                                                               |
 |----------------|-------------------------------------------------------------------------------|
-| `section`      | _Optional._ <br />When given, a subsection of the i18n object indicated by `section` will be returned. `section` should be a string corresponding to an object key. Dots may be used: `'home.introduction'` is a valid value. |
+| `section`      | _Optional._ <br />When given, a subsection of the i18n object indicated by `section` will be returned. `section` should be a string corresponding to a property in the current i18n value. Dots may be used: `'home.introduction'` is a valid value. |
 
 ### `useI18nLanguage`
 

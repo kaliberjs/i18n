@@ -26,7 +26,10 @@ export const i18n = {
     },
   },
   footer: {
-    visitorCount: n => `${n} ${n === 1 ? 'bezoeker' : 'bezoekers'} tot nu toe.`,
+    visitorCount: {
+      nl: n => `${n} ${n === 1 ? 'bezoeker' : 'bezoekers'} tot nu toe.`,
+      en: n => `${n} ${n === 1 ? 'visitor' : 'visitors'} so far.`
+    },
     copyright: () => `Copyright ${(new Date()).getFullYear()}`
   }
 }
