@@ -1,0 +1,25 @@
+{
+  "name": "@kaliber/i18n",
+  "version": "0.0.0",
+  "main": "src/index.js",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "hook",
+    "i18n"
+  ],
+  "files": [
+    "src/**",
+    "LICENSE",
+    "readme.md",
+    "package.json"
+  ],
+  "private": false,
+  "license": "MIT",
+  "description": "Internationalize your React application",
+  "repository": "https://github.com/kaliberjs/i18n.git"
+}
