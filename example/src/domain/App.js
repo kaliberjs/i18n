@@ -1,55 +1,66 @@
-import { I18nContextProvider, useI18n }  from '@kaliber/i18n'
-
-const translations = {
-  en: {
-    'dutch': 'Dutch',
-    'english': 'English',
-    'switch-to': 'Switch to',
-    'hello-world': 'Hello world!'
-  },
-  nl: {
-    'dutch': 'Nederlands',
-    'english': 'Engels',
-    'switch-to': 'Wissel naar',
-    'hello-world': 'Dag wereld!'
-  }
-}
+import { Provider as I18nContextProvider, useI18n }  from '@kaliber/i18n'
+import { i18n } from './i18n'
 
 export default function App() {
   const [language, setLanguage] = React.useState('en')
   return (
-    <I18nContextProvider value={translations[language]}>
-      <Page onLanguageChange={setLanguage} {...{ language }} />
+    <I18nContextProvider value={i18n} {...{ language }}>
+      <select value={language} onChange={e => setLanguage(e.currentTarget.value)}>
+        <option value='en'>EN</option>
+        <option value='nl'>NL</option>
+      </select>
+      <Page/>
     </I18nContextProvider>
   )
 }
 
-function Page({ language, onLanguageChange }) {
+function Page() {
   const i18n = useI18n()
+  const [visitorCount, setVisitorCount] = React.useState(' ')
+
+  React.useEffect(() => setVisitorCount(Math.round(Math.random() * 3)), [])
 
   return (
-    <main>
-      <Component />
-      {language === "en" ? (
-        <button onClick={() => onLanguageChange("nl")}>
-          {i18n("switch-to")} {i18n("dutch")}
-        </button>
-      ) : (
-        <button onClick={() => onLanguageChange("en")}>
-          {i18n("switch-to")} {i18n("english")}
-        </button>
-      )}
-    </main>
-  );
+    <div>
+      <header>
+        {i18n.navigation.map(({ label, link }, i) => (
+          <a key={i} href={link}>{label}</a>
+        ))}
+      </header>
+      <main>
+        <I18nContextProvider section='home'>
+          <Home />
+        </I18nContextProvider>
+      </main>
+      <footer>
+        {i18n.footer.copyright()} - {i18n.footer.visitorCount(visitorCount)}
+      </footer>
+    </div>
+  )
 }
 
-function Component() {
+function Home() {
   const i18n = useI18n()
 
   return (
-    <h1>
-      {i18n('hello-world')}
-      {i18n('missing-key')}
-    </h1>
+    <article>
+      <h1>{i18n.title}</h1>
+      <Intro />
+    </article>
+  )
+}
+
+function Intro() {
+  const i18n = useI18n('intro')
+
+  return (
+    <section>
+      <h2>
+        {i18n.title}
+      </h2>
+      <div>
+        {i18n.body}
+      </div>
+    </section>
   )
 }
