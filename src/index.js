@@ -2,13 +2,13 @@ const i18nContext = React.createContext(null)
 
 export function useI18n(section = undefined) {
   const context = React.useContext(i18nContext)
-  if (context === null) throw new Error('Please provide an i18n context')
+  if (context === null) throwMissingContextError()
   return context.i18n(section)
 }
 
 export function useI18nLanguage() {
   const context = React.useContext(i18nContext)
-  if (context === null) throw new Error('Please provide an i18n context')
+  if (context === null) throwMissingContextError()
   return context.language
 }
 
@@ -28,6 +28,21 @@ export function I18nContextProvider({ value, language, children }) {
       {children}
     </i18nContext.Provider>
   )
+}
+
+export function I18nSection({ section, children }) {
+  const context = React.useContext(i18nContext)
+  if (context === null) throwMissingContextError()
+
+  const value = getProp(context.value, section)
+
+  return (
+    <I18nContextProvider language={context.language} {...{ value, children }} />
+  )
+}
+
+function throwMissingContextError() {
+  throw new Error('Please provide an i18n context')
 }
 
 function normalize(language, value) {

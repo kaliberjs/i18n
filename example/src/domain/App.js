@@ -1,4 +1,4 @@
-import { I18nContextProvider, useI18n, useI18nLanguage }  from '@kaliber/i18n'
+import { I18nContextProvider, I18nSection, useI18n, useI18nLanguage }  from '@kaliber/i18n'
 import { i18n } from './i18n'
 
 export default function App() {
@@ -29,9 +29,9 @@ function Page() {
         ))}
       </header>
       <main>
-        <I18nContextProvider value={i18n.home}>
+        <I18nSection section='home'>
           <Home />
-        </I18nContextProvider>
+        </I18nSection>
       </main>
       <footer>
         {i18n.footer.copyright()} - {i18n.footer.visitorCount(visitorCount)} - {language.toUpperCase()}
