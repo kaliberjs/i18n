@@ -15,7 +15,7 @@ export function useI18n() {
       } 
       
       if (process.env.NODE_ENV !== 'production') {
-        console.warn('Translation missing for ', key)
+        console.warn('Translation missing for', key)
       }
 
       return ''

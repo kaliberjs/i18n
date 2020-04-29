@@ -30,11 +30,17 @@ function Page({ language, onLanguageChange }) {
   return (
     <main>
       <Component />
-      <button onClick={() => onLanguageChange(language === 'en' ? 'nl' : 'en')}>
-        {i18n('switch-to')} {i18n(language === 'en' ? 'dutch' : 'english')}
-      </button>
+      {language === "en" ? (
+        <button onClick={() => onLanguageChange("nl")}>
+          {i18n("switch-to")} {i18n("dutch")}
+        </button>
+      ) : (
+        <button onClick={() => onLanguageChange("en")}>
+          {i18n("switch-to")} {i18n("english")}
+        </button>
+      )}
     </main>
-  )
+  );
 }
 
 function Component() {
@@ -43,6 +49,7 @@ function Component() {
   return (
     <h1>
       {i18n('hello-world')}
+      {i18n('missing-key')}
     </h1>
   )
 }

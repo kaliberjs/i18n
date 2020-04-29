@@ -19,7 +19,7 @@ yarn add @kaliber/i18n
 import { I18nContextProvider, useI18n } from '@kaliber/i18n'
 
 const translations = {
-  'click-the-button': 'Klik op de button!'
+  'hello-world': 'Hallo wereld!'
 }
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
 
 function Component() {
   const i18n = useI18n()
-  return <button>{i18n('click-the-button')}</button>
+  return <h1>{i18n('hello-world')}</h1>
 }
 ```
 
