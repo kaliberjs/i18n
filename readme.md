@@ -19,7 +19,7 @@ yarn add @kaliber/i18n
 [Skip to reference](#reference)
 
 ```jsx
-import { Provider as I18nContextProvider, useI18n } from '@kaliber/i18n'
+import { I18nContextProvider, useI18n } from '@kaliber/i18n'
 import { i18n } from './config/i18n.js'
 
 function App() {

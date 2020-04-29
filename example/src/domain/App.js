@@ -1,8 +1,8 @@
-import { Provider as I18nContextProvider, useI18n }  from '@kaliber/i18n'
+import { I18nContextProvider, useI18n }  from '@kaliber/i18n'
 import { i18n } from './i18n'
 
 export default function App() {
-  const [language, setLanguage] = React.useState('en')
+  const [language, setLanguage] = React.useState()
   return (
     <I18nContextProvider value={i18n} {...{ language }}>
       <select value={language} onChange={e => setLanguage(e.currentTarget.value)}>

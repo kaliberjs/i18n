@@ -6,7 +6,7 @@ export function useI18n(section) {
   return i18n(section)
 }
 
-export function Provider({ value: providedValue, language: providedLanguage, section = undefined, children }) {
+export function I18nContextProvider({ value: providedValue, language: providedLanguage, section = undefined, children }) {
   const parentProviderValue = React.useContext(i18nContext)
   
   const value = getProp(providedValue || parentProviderValue.value, section)
