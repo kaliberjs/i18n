@@ -1,25 +1,21 @@
 const i18nContext = React.createContext(null)
 
-export function useI18n(section) {
-  const { i18n } = React.useContext(i18nContext)
-  if (!i18n) throw new Error('Please provide an i18n context')
-  return i18n(section)
+export function useI18n(section = undefined) {
+  const context = React.useContext(i18nContext)
+  if (context === null) throw new Error('Please provide an i18n context')
+  return context.i18n(section)
 }
 
 export function useI18nLanguage() {
-  const { language } = React.useContext(i18nContext)
-  return language
+  const context = React.useContext(i18nContext)
+  if (context === null) throw new Error('Please provide an i18n context')
+  return context.language
 }
 
-export function I18nContextProvider({ value: providedValue, language: providedLanguage, section = undefined, children }) {
-  const parentProviderValue = React.useContext(i18nContext)
-  
-  const value = getProp(providedValue || parentProviderValue.value, section)
-  const language = providedLanguage || parentProviderValue.language
-  
+export function I18nContextProvider({ value, language, children }) {
   const i18n = React.useCallback(
-    () => normalize(language, getProp(value, section)),
-    [value, section, language]
+    section => normalize(language, getProp(value, section)),
+    [value, language]
   )
 
   const providerValue = React.useMemo(

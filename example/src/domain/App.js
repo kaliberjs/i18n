@@ -1,8 +1,8 @@
-import { I18nContextProvider, useI18n }  from '@kaliber/i18n'
+import { I18nContextProvider, useI18n, useI18nLanguage }  from '@kaliber/i18n'
 import { i18n } from './i18n'
 
 export default function App() {
-  const [language, setLanguage] = React.useState()
+  const [language, setLanguage] = React.useState('en')
   return (
     <I18nContextProvider value={i18n} {...{ language }}>
       <select value={language} onChange={e => setLanguage(e.currentTarget.value)}>
@@ -16,6 +16,7 @@ export default function App() {
 
 function Page() {
   const i18n = useI18n()
+  const language = useI18nLanguage()
   const [visitorCount, setVisitorCount] = React.useState(' ')
 
   React.useEffect(() => setVisitorCount(Math.round(Math.random() * 3)), [])
@@ -28,12 +29,12 @@ function Page() {
         ))}
       </header>
       <main>
-        <I18nContextProvider section='home'>
+        <I18nContextProvider value={i18n.home}>
           <Home />
         </I18nContextProvider>
       </main>
       <footer>
-        {i18n.footer.copyright()} - {i18n.footer.visitorCount(visitorCount)}
+        {i18n.footer.copyright()} - {i18n.footer.visitorCount(visitorCount)} - {language.toUpperCase()}
       </footer>
     </div>
   )

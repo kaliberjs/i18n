@@ -130,7 +130,6 @@ const i18n = {
 |----------------|-------------------------------------------------------------------------------|
 | `value`        | _Optional for nested providers._ <br />The i18n object to use. When omitted in a nested provider the parent provider's value is used. |
 | `language`     | _Optional._ <br />When a language is given, normalization will be attempted at the leave nodes. E.g.: given the language `en` this means a leafnode with the shape `{ en: 'countries', nl: 'landen' }` will be normalized to just `'countries'`. |
-| `section`      | _Optional._ <br />When given, the value of this provider will correspond to the subsection of the i18n object indicated by `section`. `section` should be a string corresponding to an object key. Dots may be used: `'home.introduction'` is a valid value. |
 | `children`     | `children` are rendered unaffected. |
 
 The provided i18n object may be a deeply nested object, optionally containing arrays. Values don't have to be strings, you can also provide numbers, functions or React elements (see the example i18n object under [Usage](#usage))
