@@ -6,6 +6,11 @@ export function useI18n(section) {
   return i18n(section)
 }
 
+export function useI18nLanguage() {
+  const { language } = React.useContext(i18nContext)
+  return language
+}
+
 export function I18nContextProvider({ value: providedValue, language: providedLanguage, section = undefined, children }) {
   const parentProviderValue = React.useContext(i18nContext)
   
