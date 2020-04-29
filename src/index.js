@@ -13,9 +13,14 @@ export function useI18nLanguage() {
 }
 
 export function I18nContextProvider({ value, language, children }) {
+  const normalizedValue = React.useMemo(
+    () => normalize(language, value), 
+    [language, value]
+  )
+
   const i18n = React.useCallback(
-    section => normalize(language, getProp(value, section)),
-    [value, language]
+    section => getProp(normalizedValue, section),
+    [normalizedValue]
   )
 
   const providerValue = React.useMemo(
