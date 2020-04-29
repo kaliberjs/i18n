@@ -19,7 +19,7 @@ yarn add @kaliber/i18n
 [Skip to reference](#reference)
 
 ```jsx
-import { I18nContextProvider, useI18n } from '@kaliber/i18n'
+import { I18nContextProvider, useI18n, useI18nLanguage } from '@kaliber/i18n'
 import { i18n } from './config/i18n.js'
 
 function App() {
@@ -32,6 +32,7 @@ function App() {
 
 function Page() {
   const i18n = useI18n()
+  const language = useI18nLanguage()
 
   return (
     <div>
@@ -41,12 +42,12 @@ function Page() {
         ))}
       </header>
       <main>
-        <I18nContextProvider section='home'>
+        <I18nContextProvider value={i18n.home}>
           <Home />
         </I18nContextProvider>
       </main>
       <footer>
-        {i18n.footer.copyright(2020)}
+        {i18n.footer.copyright(2020)} - {language.toUpperCase()}
       </footer>
     </div>
   )
@@ -128,11 +129,10 @@ const i18n = {
 
 | Props          |                                                                               |
 |----------------|-------------------------------------------------------------------------------|
-| `value`        | _Optional for nested providers._ <br />The i18n object to use. When omitted in a nested provider the parent provider's value is used. |
+| `value`        | The i18n object to use. |
 | `language`     | _Optional._ <br />When a language is given, normalization will be attempted at the leave nodes. E.g.: given the language `en` this means a leafnode with the shape `{ en: 'countries', nl: 'landen' }` will be normalized to just `'countries'`. |
-| `children`     | `children` are rendered unaffected. |
 
-The provided i18n object may be a deeply nested object, optionally containing arrays. Values don't have to be strings, you can also provide numbers, functions or React elements (see the example i18n object under [Usage](#usage))
+The provided i18n object may be a deeply nested object, optionally containing arrays. Values don't have to be strings, you can also provide numbers, functions or React elements (see the example i18n object under [usage](#usage))
 
 ### `useI18n`
 
@@ -145,6 +145,14 @@ const i18n = useI18n(section)
 | Input          |                                                                               |
 |----------------|-------------------------------------------------------------------------------|
 | `section`      | _Optional._ <br />When given, a subsection of the i18n object indicated by `section` will be returned. `section` should be a string corresponding to an object key. Dots may be used: `'home.introduction'` is a valid value. |
+
+### `useI18nLanguage`
+
+Returns the language that is being used.
+
+```js
+const language = useI18nLanguage() 
+```
 
 ## Disclaimer
 This library is intended for internal use, we provide __no__ support, use at your own risk. It does not import React, but expects it to be provided, which [@kaliber/build](https://kaliberjs.github.io/build/) can handle for you.
