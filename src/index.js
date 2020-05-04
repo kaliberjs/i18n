@@ -3,7 +3,12 @@ const i18nContext = React.createContext(null)
 export function useI18n(section = undefined) {
   const context = React.useContext(i18nContext)
   if (context === null) throwMissingContextError()
-  return context.i18n(section)
+  
+  const { value, language } = context
+  return React.useMemo(
+    () => normalize(language, getProp(value, section)), 
+    [value, section, language]
+  )
 }
 
 export function useI18nLanguage() {
@@ -13,20 +18,7 @@ export function useI18nLanguage() {
 }
 
 export function I18nContextProvider({ value, language, children }) {
-  const normalizedValue = React.useMemo(
-    () => normalize(language, value), 
-    [language, value]
-  )
-
-  const i18n = React.useCallback(
-    section => getProp(normalizedValue, section),
-    [normalizedValue]
-  )
-
-  const providerValue = React.useMemo(
-    () => ({ value, language, i18n }),
-    [value, language, i18n]
-  )
+  const providerValue = React.useMemo(() => ({ value, language }), [value, language])
 
   return (
     <i18nContext.Provider value={providerValue}>
@@ -51,12 +43,13 @@ function throwMissingContextError() {
 }
 
 function normalize(language, value) {
-  return (
-    Array.isArray(value) ? value.map(x => normalize(language, x)):
-    typeof value === 'function' ? value :
-    typeof value === 'object' && value !== null ? normalizeObject(language, value) :
-    value
-  )
+  return Array.isArray(value)
+    ? value.map(x => normalize(language, x))
+    : typeof value === "function"
+    ? value
+    : typeof value === "object" && value !== null
+    ? normalizeObject(language, value)
+    : value;
 }
 
 function normalizeObject(language, o) {
