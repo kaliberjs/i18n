@@ -4,11 +4,15 @@ export function useI18n(...pathSegments) {
   const context = React.useContext(i18nContext)
   if (context === null) throwMissingContextError()
   
-  const { value, language } = context
-  const path = pathSegments.join('.')
-  return React.useMemo(
-    () => normalize(language, getProp(value, path)), 
-    [value, path, language]
+  const language = context.language
+  const value = getProp(context.value, pathSegments.join('.'))
+
+  return React.useCallback(
+    (...pathSegments) => normalize(
+      language, 
+      getProp(value, pathSegments.join('.'))
+    ), 
+    [value, language]
   )
 }
 

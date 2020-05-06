@@ -29,7 +29,7 @@ export const i18n = {
         }
       ]
     },
-    main: {
+    content: {
       title: {
         nl: 'Een klein beetje typesetting tekst',
         en: 'A bit of typesetting text'
@@ -58,7 +58,7 @@ export const i18n = {
         }
       ]
     },
-    main: {
+    content: {
       title: {
         nl: 'Extra i18n waardes om wat realistischer de call count van normalize() te kunnen testen',
         en: 'Extra i18n values to test the call count of normalize() more realistically'
@@ -80,7 +80,7 @@ export const i18n = {
     },
     copyright: () => `Copyright ${(new Date()).getFullYear()}`
   },
-  labels: {
+  global: {
     contactUs: {
       nl: 'Neem contact op!',
       en: 'Contact us!'
@@ -100,6 +100,10 @@ export const i18n = {
     previous: {
       nl: 'vorige',
       en: 'previous'
+    },
+    writtenBy: {
+      nl: 'geschreven door',
+      en: 'written by'
     },
     tags: 'tags'
   }
