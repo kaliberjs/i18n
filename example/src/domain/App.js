@@ -31,6 +31,9 @@ function Page() {
       <main>
         <PageMain i18nPath='home' />
       </main>
+      <aside>
+        {i18n('missing.aMissingTranslation')}
+      </aside>
       <footer>
         {i18n('footer').copyright()} - {i18n('footer').visitorCount(visitorCount)} - {language.toUpperCase()}
       </footer>

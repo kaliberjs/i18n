@@ -1,18 +1,23 @@
 const i18nContext = React.createContext(null)
 
-export function useI18n(...pathSegments) {
+export function useI18n(prefix) {
   const context = React.useContext(i18nContext)
   if (context === null) throwMissingContextError()
   
-  const language = context.language
-  const value = getProp(context.value, pathSegments.join('.'))
+  const { value, language } = context
 
   return React.useCallback(
-    (...pathSegments) => normalize(
-      language, 
-      getProp(value, pathSegments.join('.'))
-    ), 
-    [value, language]
+    (...pathSegments) => {
+      const path = [prefix, ...pathSegments].filter(Boolean).join('.')
+      const result = normalize(language, getProp(value, path))
+
+      if (process.env.NODE_ENV !== 'production' && typeof result === 'undefined') {
+        console.warn(`Missing translation (${language}): %c${path}`, 'font-weight: bold;')
+      }
+
+      return result
+    }, 
+    [value, prefix, language]
   )
 }
 
