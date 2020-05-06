@@ -17,7 +17,19 @@ export const i18n = {
       nl: 'Welkom!',
       en: 'Welcome!'
     },
-    intro: {
+    meta: {
+      tags: [
+        {
+          nl: 'dummy tekst',
+          en: 'dummy text'
+        },
+        {
+          nl: 'pagina',
+          en: 'page'
+        }
+      ]
+    },
+    main: {
       title: {
         nl: 'Een klein beetje typesetting tekst',
         en: 'A bit of typesetting text'
@@ -30,7 +42,23 @@ export const i18n = {
       nl: 'Contact met ons opnemen',
       en: 'Contact us'
     },
-    intro: {
+    meta: {
+      tags: [
+        {
+          nl: 'dummy tekst',
+          en: 'dummy text'
+        },
+        {
+          nl: 'pagina',
+          en: 'page'
+        },
+        {
+          nl: 'contact informatie',
+          en: 'contact information'
+        }
+      ]
+    },
+    main: {
       title: {
         nl: 'Extra i18n waardes om wat realistischer de call count van normalize() te kunnen testen',
         en: 'Extra i18n values to test the call count of normalize() more realistically'
@@ -72,6 +100,7 @@ export const i18n = {
     previous: {
       nl: 'vorige',
       en: 'previous'
-    }
+    },
+    tags: 'tags'
   }
 }

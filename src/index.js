@@ -1,13 +1,14 @@
 const i18nContext = React.createContext(null)
 
-export function useI18n(section = undefined) {
+export function useI18n(...pathSegments) {
   const context = React.useContext(i18nContext)
   if (context === null) throwMissingContextError()
   
   const { value, language } = context
+  const path = pathSegments.join('.')
   return React.useMemo(
-    () => normalize(language, getProp(value, section)), 
-    [value, section, language]
+    () => normalize(language, getProp(value, path)), 
+    [value, path, language]
   )
 }
 
@@ -24,17 +25,6 @@ export function I18nContextProvider({ value, language, children }) {
     <i18nContext.Provider value={providerValue}>
       {children}
     </i18nContext.Provider>
-  )
-}
-
-export function I18nSection({ section, children }) {
-  const context = React.useContext(i18nContext)
-  if (context === null) throwMissingContextError()
-
-  const value = getProp(context.value, section)
-
-  return (
-    <I18nContextProvider language={context.language} {...{ value, children }} />
   )
 }
 

@@ -1,4 +1,4 @@
-import { I18nContextProvider, I18nSection, useI18n, useI18nLanguage }  from '@kaliber/i18n'
+import { I18nContextProvider, useI18n, useI18nLanguage }  from '@kaliber/i18n'
 import { i18n } from './i18n'
 
 export default function App() {
@@ -29,9 +29,7 @@ function Page() {
         ))}
       </header>
       <main>
-        <I18nSection section='home'>
-          <Home />
-        </I18nSection>
+        <PageMain i18nPath='home' />
       </main>
       <footer>
         {i18n.footer.copyright()} - {i18n.footer.visitorCount(visitorCount)} - {language.toUpperCase()}
@@ -40,28 +38,49 @@ function Page() {
   )
 }
 
-function Home() {
-  const i18n = useI18n()
+function PageMain({ i18nPath }) {
+  const i18n = useI18n(i18nPath)
 
   return (
     <article>
-      <h1>{i18n.title}</h1>
-      <Intro />
+      <header>
+        <h1>{i18n.title}</h1>
+
+        {/* Pass down the translated items as props */}
+        <Tags tags={i18n.meta.tags} />
+      </header>
+
+      {/* Or pass down the i18nPath and handle translations lower in the tree */}
+      <PageContent {...{ i18nPath }} />
     </article>
   )
 }
 
-function Intro() {
-  const i18n = useI18n('intro')
+function PageContent({ i18nPath }) {
+  /*
+   * Please note that this causes a tight coupling between <PageMain /> and
+   * it's parent component. */
+  const i18n = useI18n(i18nPath, 'main')
 
   return (
     <section>
-      <h2>
-        {i18n.title}
-      </h2>
-      <div>
-        {i18n.body}
-      </div>
+      <h2>{i18n.title}</h2>
+      <div>{i18n.body}</div>
     </section>
+  )
+}
+
+function Tags({ tags }) {
+  const i18n = useI18n('labels')
+
+  return (
+    <div>
+      {i18n.tags}:&nbsp;
+      {tags.map((tag, i) => (
+        <span key={i}>
+          <em>{tag}</em>{(i !== tags.length - 1) && ', '}
+        </span>
+      ))}
+    </div>
   )
 }
