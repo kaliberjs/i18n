@@ -3,11 +3,12 @@ const i18nContext = React.createContext(null)
 export function useI18n(...i18nPathSegments) {
   const context = React.useContext(i18nContext)
   if (context === null) throwMissingContextError()
-  
   const { value, language } = context
+  
   return (...pathSegments) => {
     const path = [...i18nPathSegments, ...pathSegments].join('.')
     const result = normalize(language, getProp(value, path))
+
     if (process.env.NODE_ENV !== 'production' && typeof result === 'undefined') {
       console.warn(`Missing translation (${language}): %c${path}`, 'font-weight: bold;')
     }

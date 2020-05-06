@@ -70,8 +70,7 @@ function PageMain({ i18nPath }) {
 }
 
 function PageContent({ i18nPath }) {
-  /*
-   * Please note that this causes a tight coupling between <PageMain /> and
+  /* Please note that this causes a tight coupling between <PageMain /> and
    * it's parent component. */
   const i18n = useI18n(i18nPath)
 
