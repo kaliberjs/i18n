@@ -5,21 +5,15 @@ export function useI18n(...i18nPathSegments) {
   if (context === null) throwMissingContextError()
   
   const { value, language } = context
-  const prefix = i18nPathSegments.join('.')
+  return (...pathSegments) => {
+    const path = [...i18nPathSegments, ...pathSegments].join('.')
+    const result = normalize(language, getProp(value, path))
+    if (process.env.NODE_ENV !== 'production' && typeof result === 'undefined') {
+      console.warn(`Missing translation (${language}): %c${path}`, 'font-weight: bold;')
+    }
 
-  return React.useCallback(
-    (...pathSegments) => {
-      const path = [prefix, ...pathSegments].filter(Boolean).join('.')
-      const result = normalize(language, getProp(value, path))
-
-      if (process.env.NODE_ENV !== 'production' && typeof result === 'undefined') {
-        console.warn(`Missing translation (${language}): %c${path}`, 'font-weight: bold;')
-      }
-
-      return result
-    }, 
-    [value, prefix, language]
-  )
+    return result
+  }
 }
 
 export function useI18nLanguage() {
