@@ -1,10 +1,11 @@
 const i18nContext = React.createContext(null)
 
-export function useI18n(prefix) {
+export function useI18n(...i18nPathSegments) {
   const context = React.useContext(i18nContext)
   if (context === null) throwMissingContextError()
   
   const { value, language } = context
+  const prefix = i18nPathSegments.join('.')
 
   return React.useCallback(
     (...pathSegments) => {

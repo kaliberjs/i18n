@@ -19,7 +19,7 @@ yarn add @kaliber/i18n
 [Skip to reference](#reference)
 
 ```jsx
-import { I18nContextProvider, I18nSection, useI18n, useI18nLanguage } from '@kaliber/i18n'
+import { I18nContextProvider, useI18n, useI18nLanguage } from '@kaliber/i18n'
 import { i18n } from './config/i18n.js'
 
 function App() {
@@ -37,45 +37,41 @@ function Page() {
   return (
     <div>
       <header>
-        {i18n.navigation.map(({ label, link }, i) => (
-          <a key={i} href={link}>{label}</a>
-        ))}
+        <Navigation links={i18n('navigation')} />
       </header>
       <main>
-        <I18nSection section='home'>
-          <Home />
-        </I18nSection>
+        <PageMain i18nPath='home' />
       </main>
+      <aside>
+        {/* Missing translations while yield a warning, when not in production mode */}
+        {i18n('missing.aMissingTranslation')}
+      </aside>
       <footer>
-        {i18n.footer.copyright(2020)} - {language.toUpperCase()}
+        {i18n('footer').copyright()} - {language.toUpperCase()}
       </footer>
     </div>
   )
 }
 
-function Home() {
+function PageMain({ i18nPath }) {
   const i18n = useI18n()
 
   return (
     <article>
-      <h1>{i18n.title}</h1>
-      <Intro />
+      <header>
+        {/* Prefix 'title' with the i18nPath */}
+        <h1>{i18n(i18nPath, 'title')}</h1>
+
+        {/* Access a translation in 'global' */}
+        <em>{i18n('global.writtenBy')}: Kaliber</em>
+
+        {/* Pass down the internationalized items as props */}
+        <Tags tags={i18n(i18nPath, 'meta.tags')} />
+      </header>
+
+      {/* Or pass down the i18nPath and handle translations lower in the tree */}
+      <PageContent {...{ i18nPath }} />
     </article>
-  )
-}
-
-function Intro() {
-  const i18n = useI18n('intro')
-
-  return (
-    <section>
-      <h2>
-        {i18n.title}
-      </h2>
-      <div>
-        {i18n.body}
-      </div>
-    </section>
   )
 }
 ```
@@ -122,9 +118,9 @@ const i18n = {
 ### `I18nContextProvider`
 
 ```jsx
-<Provider value={i18n} language='en'>
+<I18nContextProvider value={i18n} language='en'>
   {children}
-</Provider>
+</I18nContextProvider>
 ```
 
 | Props          |                                                                               |
@@ -134,29 +130,22 @@ const i18n = {
 
 The provided i18n object may be a deeply nested object, optionally containing arrays. Values don't have to be strings, you can also provide numbers, functions or React elements (see the example i18n object under [usage](#usage))
 
-### `I18nSection`
-
-```jsx
-<I18nSection section='home'>
-  {children}
-</I18nSection>
-```
-
-| Props          |                                                                               |
-|----------------|-------------------------------------------------------------------------------|
-| `section`      | Re-provides a subsection of the i18n object indicated by `section`. `section` should be a string corresponding to a property in the current i18n value. Dots may be used: `'home.introduction'` is a valid value. |
-
 ### `useI18n`
 
-Returns (a subsection of) the i18n object from the nearest provider.
+Returns (a subsection of) the i18n object.
 
 ```js
-const i18n = useI18n(section) 
+const i18n = useI18n(i18nPath) 
+const translatedString = i18n('path')
 ```
 
 | Input          |                                                                               |
 |----------------|-------------------------------------------------------------------------------|
-| `section`      | _Optional._ <br />When given, a subsection of the i18n object indicated by `section` will be returned. `section` should be a string corresponding to a property in the current i18n value. Dots may be used: `'home.introduction'` is a valid value. |
+| `i18nPath`         | _Optional._ <br />When given, the returned `i18n` function lookup translations in a subset of the i18n object indicated by `i18nPath`. |
+
+| Output         |                                                                               |
+|----------------|-------------------------------------------------------------------------------|
+| `i18n`         | A `function` which accepts one or multiple path segments as arguments, which will be joined by dots. The value at this resulting path (prefixed with the `i18nPath`) will be normalized, then returned. When no value is found a warning will be logged (unless you're running production mode). |
 
 ### `useI18nLanguage`
 

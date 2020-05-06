@@ -24,9 +24,7 @@ function Page() {
   return (
     <div>
       <header>
-        {i18n('navigation').map(({ label, link }, i) => (
-          <a key={i} href={link}>{label}</a>
-        ))}
+        <Navigation links={i18n('navigation')} />
       </header>
       <main>
         <PageMain i18nPath='home' />
@@ -38,6 +36,16 @@ function Page() {
         {i18n('footer').copyright()} - {i18n('footer').visitorCount(visitorCount)} - {language.toUpperCase()}
       </footer>
     </div>
+  )
+}
+
+function Navigation({ links }) {
+  return (
+    <nav>
+      {links.map(({ label, link }, i) => (
+        <a key={i} href={link}>{label}</a>
+      ))}
+    </nav>
   )
 }
 
