@@ -97,16 +97,35 @@ const i18n = {
       nl: 'Welkom!',
       en: 'Welcome!'
     },
-    intro: {
+    meta: {
+      tags: [
+        {
+          nl: 'dummy tekst',
+          en: 'dummy text'
+        },
+        {
+          nl: 'pagina',
+          en: 'page'
+        }
+      ]
+    },
+    content: {
       title: {
         nl: 'Een klein beetje typesetting tekst',
         en: 'A bit of typesetting text'
       },
-      body: <p>Lorem ipsum dolor sit amet <strong>consectetur adipisicing elit</strong>.</p>,
+      body: <p>Lorem ipsum dolor sit amet <strong>consectetur adipisicing elit</strong>. Facere esse unde aut officiis repudiandae vero placeat totam voluptas. Doloribus iste quae maiores officia praesentium magni, perspiciatis quibusdam necessitatibus sequi nemo.</p>,
     },
   },
   footer: {
-    copyright: year => `Copyright ${year}`
+    copyright: () => `Copyright ${(new Date()).getFullYear()}`
+  },
+  global: {
+    writtenBy: {
+      nl: 'geschreven door',
+      en: 'written by'
+    },
+    tags: 'tags'
   }
 }
 ```
