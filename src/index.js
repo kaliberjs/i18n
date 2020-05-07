@@ -23,7 +23,7 @@ export function useI18nLanguage() {
   return context.language
 }
 
-export function I18nContextProvider({ value, language, children }) {
+export function I18nProvider({ value, language, children }) {
   const providerValue = React.useMemo(() => ({ value, language }), [value, language])
 
   return (

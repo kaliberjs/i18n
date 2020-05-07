@@ -3,10 +3,7 @@
 Internationalize your React application.
 
 ## Motivation
-i18n a.k.a. internationalization. More often than not you want to make your application available in multiple languages. @kaliber/i18n helps translating the static strings in your application.
-
-## Polyfill
-This module uses a Symbol to check wether a `I18nContextProvider` is available. At the time of writing, `Symbol` is [supported by most modern browsers](https://caniuse.com/#feat=mdn-javascript_builtins_symbol), but if you need to support IE11 you will have to polyfill it (Symbol is included in polyfill.io's `es2015` polyfill). 
+i18n, a.k.a. internationalization. Often you want to make your application available in multiple languages. @kaliber/i18n helps translating the static strings in your application.
 
 ## Installation
 
@@ -19,14 +16,14 @@ yarn add @kaliber/i18n
 [Skip to reference](#reference)
 
 ```jsx
-import { I18nContextProvider, useI18n, useI18nLanguage } from '@kaliber/i18n'
+import { I18nProvider, useI18n, useI18nLanguage } from '@kaliber/i18n'
 import { i18n } from './config/i18n.js'
 
 function App() {
   return (
-    <I18nContextProvider value={i18n} language='en'>
+    <I18nProvider value={i18n} language='en'>
       <Page />
-    </I18nContextProvider>
+    </I18nProvider>
   )
 }
 
@@ -43,7 +40,7 @@ function Page() {
         <PageMain i18nPath='home' />
       </main>
       <aside>
-        {/* Missing translations while yield a warning, when not in production mode */}
+        {/* Missing translations yield a warning in your console, when not in production mode */}
         {i18n('missing.aMissingTranslation')}
       </aside>
       <footer>
@@ -52,6 +49,9 @@ function Page() {
     </div>
   )
 }
+
+// Please note that the i18nPath prop is not an actual part of this library,
+// it's just a variable containing a path string ('home').
 
 function PageMain({ i18nPath }) {
   const i18n = useI18n()
@@ -115,12 +115,12 @@ const i18n = {
 
 ## Reference
 
-### `I18nContextProvider`
+### `I18nProvider`
 
 ```jsx
-<I18nContextProvider value={i18n} language='en'>
+<I18nProvider value={i18n} language='en'>
   {children}
-</I18nContextProvider>
+</I18nProvider>
 ```
 
 | Props          |                                                                               |
@@ -141,11 +141,30 @@ const translatedString = i18n('path')
 
 | Input          |                                                                               |
 |----------------|-------------------------------------------------------------------------------|
-| `i18nPath`         | _Optional._ <br />When given, the returned `i18n` function lookup translations in a subset of the i18n object indicated by `i18nPath`. |
+| `i18nPath`         | _Optional._ <br />When given, the returned `i18n` function looks up its translations in a subset of the i18n object indicated by `i18nPath`. |
 
 | Output         |                                                                               |
 |----------------|-------------------------------------------------------------------------------|
-| `i18n`         | A `function` which accepts one or multiple path segments as arguments, which will be joined by dots. The value at this resulting path (prefixed with the `i18nPath`) will be normalized, then returned. When no value is found a warning will be logged (unless you're running production mode). |
+| `i18n`         | A `function` which accepts one or multiple `i18nPath` segments as arguments, which will be joined by dots. The value at this resulting path (prefixed with the `i18nPath`) will be normalized, then returned. When no value is found a warning will be logged (unless you're running production mode). |
+
+**Examples**
+```js
+const i18n = useI18n()
+const translatedString = i18n('global.cta')
+```
+```js
+const i18n = useI18n('global')
+const translatedString = i18n('cta')
+```
+```js
+function Component({ i18nPath }) {
+  const i18n = useI18n()
+  const translatedString = i18n(i18nPath, 'content.title')
+  const anotherTranslatedString = i18n('global.cta')
+
+  // ...
+}
+```
 
 ### `useI18nLanguage`
 
