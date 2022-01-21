@@ -1,7 +1,7 @@
 const i18nContext = React.createContext(null)
 
 const defaultLogMissingTranslation = ({ language, path }) => { 
-  console.console.warn(`Missing translation (${language}): ${path}`)
+  console.warn(`Missing translation (${language}): ${path}`)
 }
 
 export function useI18n(...i18nPathSegments) {
