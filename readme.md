@@ -146,6 +146,7 @@ const i18n = {
 |----------------|-------------------------------------------------------------------------------|
 | `value`        | The i18n object to use. |
 | `language`     | _Optional._ <br />When a language is given, normalization will be attempted at the leave nodes. E.g.: given the language `en` this means a leafnode with the shape `{ en: 'countries', nl: 'landen' }` will be normalized to just `'countries'`. |
+| `logMissingTranslation`     | _Optional._ (default: `console.warn`)<br />If you want to change how missing translations are logged, you can provide your own `logMissingTranslation` function. This function is called with an object of the shape: `{ language, path }`. |
 
 The provided i18n object may be a deeply nested object, optionally containing arrays. Values don't have to be strings, you can also provide numbers, functions or React elements (see the example i18n object under [usage](#usage))
 

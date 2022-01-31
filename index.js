@@ -1,16 +1,20 @@
 const i18nContext = React.createContext(null)
 
+const defaultLogMissingTranslation = ({ language, path }) => { 
+  console.warn(`Missing translation (${language}): ${path}`)
+}
+
 export function useI18n(...i18nPathSegments) {
   const context = React.useContext(i18nContext)
   if (context === null) throwMissingContextError()
-  const { value, language } = context
+  const { value, language, logMissingTranslation } = context
   
   return (...pathSegments) => {
     const path = [...i18nPathSegments, ...pathSegments].join('.')
     const result = normalize(language, getProp(value, path))
 
     if (process.env.NODE_ENV !== 'production' && typeof result === 'undefined') {
-      console.warn(`Missing translation (${language}): %c${path}`, 'font-weight: bold;')
+      logMissingTranslation({ language, path })
     }
 
     return result
@@ -23,8 +27,11 @@ export function useI18nLanguage() {
   return context.language
 }
 
-export function I18nProvider({ value, language, children }) {
-  const providerValue = React.useMemo(() => ({ value, language }), [value, language])
+export function I18nProvider({ value, language, logMissingTranslation = defaultLogMissingTranslation, children }) {
+  const providerValue = React.useMemo(
+    () => ({ value, language, logMissingTranslation }), 
+    [value, language, logMissingTranslation]
+  )
 
   return (
     <i18nContext.Provider value={providerValue}>
