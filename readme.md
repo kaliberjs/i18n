@@ -11,6 +11,22 @@ i18n, a.k.a. internationalization. Often you want to make your application avail
 yarn add @kaliber/i18n
 ```
 
+#### When using `@kaliber/build`
+You need to make sure Kaliber Build will transpile this package for you.
+Add `/@kaliber\//` to the list of to be compiled RegEx matches in `config/default.js`, like so:
+
+```json
+module.exports = {
+  // ...
+  kaliber: {
+    compileWithBabel: [
+      /@kaliber\//,
+      // ...
+    ]
+  }
+}
+```
+
 ## Usage
 
 [Skip to reference](#reference)
